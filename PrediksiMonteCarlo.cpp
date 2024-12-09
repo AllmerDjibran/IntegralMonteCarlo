@@ -12,32 +12,28 @@ void readCSV(const string& filename, double*& prices, int& size) {
     ifstream file(filename);
     string line, cell;
 
-    // Melewati header
     getline(file, line);
 
-    // Hitung jumlah data harga
     size = 0;
     while (getline(file, line)) {
         size++;
     }
 
-    // Alokasi memori untuk harga
     prices = new double[size];
 
     // Membaca harga emas dari file CSV
     file.clear();
     file.seekg(0);
-    getline(file, line); // Skip header
+    getline(file, line);
 
     int index = 0;
     while (getline(file, line)) {
         stringstream lineStream(line);
-        getline(lineStream, cell, ','); // Skip Month column
-        getline(lineStream, cell, ','); // Read Average Price column
+        getline(lineStream, cell, ',');
+        getline(lineStream, cell, ',');
         try {
             prices[index++] = stod(cell);
         } catch (...) {
-            // Skip rows with invalid data
             continue;
         }
     }
@@ -72,7 +68,6 @@ void monteCarloSimulation(double initialPrice, double mean, double standarDevias
     mt19937 gen(rd());
     normal_distribution<> dist(0, 1);
 
-    // Alokasi memori untuk hasil simulasi
     simulatedPrices = new double[simulations];
 
     for (int sim = 0; sim < simulations; ++sim) {
@@ -133,7 +128,6 @@ int main() {
     // Tampilkan hasil prediksi
     cout << "Prediksi harga emas setelah " << months << " bulan: " << predictedPrice << endl;
 
-    // Dealokasi memori
     delete[] prices;
     delete[] logReturns;
     delete[] simulatedPrices;
